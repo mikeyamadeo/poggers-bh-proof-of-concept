@@ -9,11 +9,23 @@
   },
   "dependencies": {
     "next": "12.0.2",
+    "next-images": "^1.8.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-ui": "^1.0.0-beta.32",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "eslint": "7",
-    "eslint-config-next": "12.0.2"
+    "eslint-config-next": "12.0.2",
+    "standard": "16.0.3"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "test",
+      "expect",
+      "afterAll"
+    ]
   }
 }
