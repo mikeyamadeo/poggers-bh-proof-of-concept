@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Image from 'next/image'
 import { VStack, HStack, Text, Button, Element, Avatar } from '@client/ui'
 
 const tribe = [
@@ -239,8 +240,8 @@ const rngPogger = () => {
   return pogger
 }
 export default function Home () {
-  const [p1, setP1] = React.useState(rngPogger())
-  const [p2, setP2] = React.useState(rngPogger())
+  const [p1, setP1] = React.useState(pogger1)
+  const [p2, setP2] = React.useState(pogger2)
   const [pogger, set] = React.useState()
 
   const rng = () => {
@@ -272,7 +273,7 @@ const assetToZindex = {
   bg: 1,
   tribe: 2,
 }
-const Asset = ({src, size}) => <img src={src} width='100%' height='100%' />
+const Asset = ({src, size}) => <Image src={src} width='250px' height='250px' />
 
 const Pogger = ({ name, traits, onRngSelect }) => {
   return (
