@@ -24,7 +24,7 @@ const bg = [
 ]
 const head = [
   'head.none',
-  'head.#1',
+  'head.numberone',
   'head.beanie',
   'head.rainbow-afro',
   'head.propeller'
