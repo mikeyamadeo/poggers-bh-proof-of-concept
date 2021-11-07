@@ -35,7 +35,7 @@ const eye = [
   'eye.heart',
   'eye.scanner',
   'eye.wizard',
-  'eye.zero-sleezy',
+  'eye.zero-sleazy',
 ]
 const body = [
   'body.none',
