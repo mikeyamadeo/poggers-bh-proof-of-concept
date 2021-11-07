@@ -39,7 +39,7 @@ const eye = [
 ]
 const body = [
   'body.none',
-  'body.hawaiian',
+  'body.hawaii',
   'body.nifty',
   'body.polo',
   'body.zero-crop'
@@ -186,7 +186,7 @@ const config = {
 //   { value: 'rng', weight: 0.05 }
 // ]
 
-const traitList = ['bg', 'tribe', 'head', 'eye', 'body', 'mouth', 'neck']
+const traitList = ['bg', 'tribe', 'head', 'eye', 'body', 'neck', 'mouth', ]
 const blackHole = (p1, p2) => {
   const pogger = traitList.reduce((pogger, traitName) => {
       const options = traitName === 'bg' || traitName === 'tribe'
@@ -222,14 +222,32 @@ const blackHole = (p1, p2) => {
   return pogger
 }
 
+const rngPogger = () => {
+  const pogger = traitList.reduce((pogger, traitName) => {
+    const options = metadata[traitName]
+
+    const descriptor = options[getRandomInt(0, options.length - 1)]
+    const value = descriptor.split('.')[1]
+    return {
+      ...pogger,
+      [traitName]: {
+        name: traitName,
+        value: value
+      }
+    }
+  }, {})
+  return pogger
+}
 export default function Home () {
+  const [p1, setP1] = React.useState(rngPogger())
+  const [p2, setP2] = React.useState(rngPogger())
   const [pogger, set] = React.useState()
 
   const rng = () => {
-    const result = blackHole(pogger1, pogger2)
-    console.log({result})
+    const result = blackHole(p1, p2)
     set(result)
   }
+
   return (
     <VStack x h='100vh' y bg='black' css={{color: 'white'}} gap={3}>
       <HStack gap={3} y w='100%' pl='calc(50% - 400px)'>
@@ -238,8 +256,8 @@ export default function Home () {
       </HStack>
       <HStack gap={3}>
         
-        <Pogger name='pogger 1' traits={pogger1} />
-        <Pogger name='pogger 2' traits={pogger2} />
+        <Pogger name='pogger 1' traits={p1} onRngSelect={() => setP1(rngPogger())} />
+        <Pogger name='pogger 2' traits={p2} onRngSelect={() => setP2(rngPogger())} />
         {pogger && <Pogger name='black hole pogger' traits={pogger} />}
       </HStack>
       <VStack py={4} x w='400px' m='0 auto'>
@@ -256,10 +274,13 @@ const assetToZindex = {
 }
 const Asset = ({src, size}) => <img src={src} width='100%' height='100%' />
 
-const Pogger = ({ name, traits }) => {
+const Pogger = ({ name, traits, onRngSelect }) => {
   return (
     <VStack p={4} gap={3}>
-      <Text variant='title'>{name}</Text>
+      <HStack w='250px' space='between'>
+        <Text variant='title'>{name}</Text>
+        {onRngSelect && <button onClick={onRngSelect}>randomize</button>}
+      </HStack>
       <VStack gap={3}>
         
         <VStack w='250px' h='250px' css={{border: '1px solid blue'}} position='relative'>
@@ -271,7 +292,7 @@ const Pogger = ({ name, traits }) => {
             const src = require(`./assets/${trait.name}/${trait.value}.png`).default.src
 
             return (
-              <Element position='absolute' left={0} top={0} css={{zIndex: assetToZindex[name]}} w='100%' h='100%'>
+              <Element key={key} position='absolute' left={0} top={0} css={{zIndex: assetToZindex[name]}} w='100%' h='100%'>
                 <Asset src={src} />
               </Element>
             )
